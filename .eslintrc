@@ -1,0 +1,72 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "plugins": [
+        "prettier"
+    ],
+    "extends": [
+        "eslint:recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "rules": {
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "warn",
+            "single",
+            {
+                "allowTemplateLiterals": true,
+                "avoidEscape": true
+            }
+        ],
+        "semi": [
+            0
+        ],
+        "no-var": "error",
+        "no-unused-vars": "warn",
+        "no-console": "off",
+        "prettier/prettier": [
+            "warn",
+            {
+                "useTabs": false,
+                "semi": true,
+                "tabWidth": 2,
+                "trailingComma": "all",
+                "no-unexpected-multiline": true,
+                "afterLineComment": true,
+                "singleQuote": true
+            }
+        ],
+        "no-mixed-spaces-and-tabs": "warn",
+        "babel/new-cap": 1,
+        "babel/camelcase": 1,
+        "babel/no-invalid-this": 1,
+        "babel/object-curly-spacing": 1,
+        "babel/quotes": 1,
+        "babel/semi": 1,
+        "babel/no-unused-expressions": 1,
+        "babel/valid-typeof": 1,
+        "lines-around-comment": [
+            "warn",
+            {
+                "beforeBlockComment": false,
+                "afterBlockComment": true,
+                "beforeLineComment": true,
+                "afterLineComment": false,
+                "allowBlockStart": true,
+                "allowBlockEnd": true,
+                "allowObjectStart": true,
+                "allowObjectEnd": true,
+                "allowArrayStart": true,
+                "allowArrayEnd": true
+            }
+        ],
+        "no-unexpected-multiline": "off"
+    }
+}
