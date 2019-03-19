@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose');
 const URI = process.env.MONGO_URI || 'localhost';
 const DB = process.env.MONGO_DB || 'board';
