@@ -1,5 +1,5 @@
 {
-    "name": "class101-backend-test",
+    "name": "backend-test",
     "version": "1.0.0",
     "scripts": {
         "test": "jest",
