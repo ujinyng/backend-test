@@ -8,7 +8,7 @@ const user = require('./schema/user');
 const post = require('./schema/post');
 const comment = require('./schema/comment');
 
-const model = [];
+const model = {};
 
 function dbConnect() {
   const db = mongoose.connection;
@@ -21,9 +21,9 @@ function dbConnect() {
     useNewUrlParser: true,
   });
 
-  model.push(user);
-  model.push(post);
-  model.push(comment);
+  model.user = user;
+  model.post = post;
+  model.comment = comment;
 }
 
 module.exports = {
