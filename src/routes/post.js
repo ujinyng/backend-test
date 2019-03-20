@@ -19,13 +19,14 @@ router.post('/', function(req, res) {
     title: req.body.title,
     content: req.body.content,
   });
+
   model.post
     .create(req.body)
     .then(result => res.send(result))
     .catch(err => res.status(500).send(err));
 });
 
-//get post
+//get post by id
 router.get('/:id', function(req, res) {
   model.post
     .findOne({ _id: req.params.id })
@@ -47,13 +48,10 @@ router.delete('/:id', function(req, res) {
     .remove({ _id: req.params.id })
     .then(result => {
       if (result.n === 0)
-        res.send(`ID ${req.params.id} does not exist at post`);
+        res.send(`ID ${req.params.id} post does not exist at the board`);
       else res.send(`remove the post`);
     })
     .catch(err => res.status(500).send(err));
 });
-
-//comment router
-router.use('/comment', commentRouter);
 
 module.exports = router;
