@@ -16,7 +16,7 @@ if (process.env.NODE_ENV == 'production') {
 }
 app.use(express.json());
 app.use(morgan('combined'));
-app.use('/', router);
+app.use('/api', router);
 
 app.listen(3000);
 console.log('Server running at http://localhost:3000');
