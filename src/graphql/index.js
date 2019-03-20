@@ -2,38 +2,50 @@ const { ApolloServer, gql } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
 const model = require('../../db/mongoose').model;
+const Post = model.post;
+const Comment = model.comment;
 
 const typeDefs = gql`
   scalar Date
 
   type Post {
-    id: ID!
+    _id: ID!
     author: Int
     title: String
     content: String
     date: Date
-    comment: String
+    comment: [String]
+  }
+  type Comment {
+    _id: ID!
+    post: Post
+    author: Int
+    content: String
+    date: Date
   }
   type Query {
-    hello: String
+    getPosts: [Post]
+    getComments: [Comment]
   }
 `;
 
 const resolvers = {
+  Query: {
+    getPosts: async () => await Post.find({}).exec(),
+    getComments: async () => await Comment.find({}).exec(),
+  },
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Date custom scalar type',
     parseValue(value) {
-      // value from the client
-      return new Date(value);
+      return new Date(value); // value from the client
     },
     serialize(value) {
-      // value sent to the client
-      return value.getTime();
+      return value.getTime(); // value sent to the client
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {
-        return parseInt(ast.value, 10); // ast value is always in string format
+        return new Date(ast.value); // ast value is always in string format
       }
       return null;
     },
