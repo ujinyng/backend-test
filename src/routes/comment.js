@@ -4,13 +4,17 @@ const postRouter = require('./post');
 
 const model = require('../../db/mongoose').model;
 
-//get all comments by post id
-router.get('/', function(req, res) {
-  model.comment
-    .find({ post: req.query.pid })
-    .then(result => res.json(result))
-    .catch(err => res.status(500).send(err));
-});
+/**
+ * no more need
+ * use graphql
+ */
+// //get all comments by post id
+// router.get('/', function(req, res) {
+//   model.comment
+//     .find({ post: req.query.pid })
+//     .then(result => res.json(result))
+//     .catch(err => res.status(500).send(err));
+// });
 
 //write new comment
 router.post('/', function(req, res) {

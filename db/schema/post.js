@@ -6,13 +6,16 @@ const postSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   date: { type: Date, default: Date.now },
-  comment: [
-    {
-      type: Number,
-      ref: 'comment',
-      default: '',
-    },
-  ],
+  /**
+   * no more need
+   */
+  // comment: [
+  //   {
+  //     type: Number,
+  //     ref: 'comment',
+  //     default: '',
+  //   },
+  // ],
 });
 
 module.exports = mongoose.model('post', postSchema);
