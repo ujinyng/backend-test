@@ -14,20 +14,18 @@ const model = {
   comment,
 };
 
-function dbConnect() {
-  const db = mongoose.connection;
-  db.on('error', console.error);
-  db.once('open', function() {
-    console.log('Connected to mongod server');
-  });
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', function() {
+  console.log('Connected to mongod server');
+});
 
-  mongoose.connect(`mongodb://${URI}/${DB}`, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-  });
-}
+const dbconnect = mongoose.connect(`mongodb://${URI}/${DB}`, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+});
 
 module.exports = {
   model,
-  dbConnect,
+  dbconnect
 };

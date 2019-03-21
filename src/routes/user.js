@@ -18,10 +18,22 @@ router.post('/', function(req, res) {
     _id: req.body._id,
     name: req.body.name,
   });
-  model.user
-    .create(req.body)
-    .then(result => res.send(result))
-    .catch(err => res.status(500).send(err));
+
+  if (req.body.sessionId !== req.sessionID) {
+    req.body.sessionId = req.sessionID
+    model.user
+      .create(req.body)
+      .then(result => res.send(result))
+      .catch(err => res.status(500).send(err));
+  } else {
+    res.send(`${req.sessionID} is already exist`);
+  }
+});
+
+router.get('/logout', function(req, res) {
+  req.session.destroy(); // 세션 삭제
+  res.clearCookie('sid'); // 세션 쿠키 삭제
+  res.send('logout');
 });
 
 //get user
