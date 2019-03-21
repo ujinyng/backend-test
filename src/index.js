@@ -1,17 +1,19 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+require('dotenv').config();
+const URI = process.env.MONGO_URI || 'localhost';
+const DB = process.env.MONGO_DB || 'board';
 
 const express = require('express');
-const ApolloServer = require('apollo-server-express');
 const mongoose = require('../db/mongoose');
 const coockieParser = require('cookie-parser');
 const router = require('./routes');
-const server = require('./graphql');
+const apolloserver = require('./graphql');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const morgan = require('morgan');
 
 const app = express();
-const db = mongoose.db;
+const db = mongoose.dbconnect;
 const model = mongoose.model;
 
 if (process.env.NODE_ENV == 'production') {
@@ -29,7 +31,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({
-      url: 'mongodb://localhost/board',
+      url: `mongodb://${URI}/${DB}`,
       collection: 'sessions',
     }),
     cookie: {
@@ -39,6 +41,6 @@ app.use(
 );
 
 app.use('/api', router);
-server.applyMiddleware({ app });
+apolloserver.applyMiddleware({ app });
 app.listen(3000);
 console.log('Server running at http://localhost:3000');
