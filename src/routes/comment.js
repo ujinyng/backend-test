@@ -8,7 +8,7 @@ const model = require('../../db/mongoose').model;
 router.get('/', function(req, res) {
   model.comment
     .find({ post: req.query.pid })
-    .then(result => res.send(result))
+    .then(result => res.json(result))
     .catch(err => res.status(500).send(err));
 });
 

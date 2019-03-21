@@ -6,48 +6,121 @@ const Post = model.post;
 const Comment = model.comment;
 
 const typeDefs = gql`
-  scalar Date
+  scalar ISODate
 
   type Post {
     _id: ID!
-    author: Int
+    author: ID!
     title: String
     content: String
-    date: Date
-    comment: [String]
+    date: ISODate
+    comment: [ID!]
   }
   type Comment {
     _id: ID!
-    post: Post
-    author: Int
+    post: ID!
+    author: ID!
     content: String
-    date: Date
+    date: ISODate
+  }
+  type PostResult {
+    result: [Post]
+    totalCount: Int
+    offset: Int
+  }
+  type CommentResult {
+    result: [Comment]
+    totalCount: Int
+    offset: Int
   }
   type Query {
-    getPosts: [Post]
-    getComments: [Comment]
+    getAllPosts(n: Int, offset: Int): PostResult
+    getAllComments(n: Int, offset: Int): CommentResult
+    getPostsbyUserId(author: Int!, n: Int, offset: Int): PostResult
+    getCommentsbyUserId(author: Int!, n: Int, offset: Int): CommentResult
+    getCommentsbyPostId(post: Int!, n: Int, offset: Int): CommentResult
   }
 `;
 
 const resolvers = {
   Query: {
-    getPosts: async () => await Post.find({}).exec(),
-    getComments: async () => await Comment.find({}).exec(),
-  },
-  Date: new GraphQLScalarType({
-    name: 'Date',
-    description: 'Date custom scalar type',
-    parseValue(value) {
-      return new Date(value); // value from the client
+    getAllPosts: async (_, { n: n, offset = 0 }) => {
+      const find = await model.post.find({}).exec();
+      const totalCount = find.length;
+      const result =
+        n === undefined ? find.slice(offset) : find.slice(offset, offset + n);
+      const results = {
+        result,
+        totalCount,
+        offset,
+      };
+      return results;
     },
+    getAllComments: async (_, { n: n, offset = 0 }) => {
+      const find = await model.comment.find({}).exec();
+      const totalCount = find.length;
+      const result =
+        n === undefined ? find.slice(offset) : find.slice(offset, offset + n);
+      const results = {
+        result,
+        totalCount,
+        offset,
+      };
+      return results;
+    },
+    getPostsbyUserId: async (_, { author: author, n: n, offset = 0 }) => {
+      const find = await model.post.find({ author: author }).exec();
+      const totalCount = find.length;
+      const result =
+        n === undefined ? find.slice(offset) : find.slice(offset, offset + n);
+      const results = {
+        result,
+        totalCount,
+        offset,
+      };
+      return results;
+    },
+    getCommentsbyUserId: async (_, { author: author, n: n, offset = 0 }) => {
+      const find = await model.comment.find({ author: author }).exec();
+      const totalCount = find.length;
+
+      const result =
+        n === undefined ? find.slice(offset) : find.slice(offset, offset + n);
+      const results = {
+        result,
+        totalCount,
+        offset,
+      };
+      return results;
+    },
+    getCommentsbyPostId: async (_, { post: post, n: n, offset = 0 }) => {
+      const find = await model.comment.find({ post: post }).exec();
+      const totalCount = find.length;
+
+      const result =
+        n === undefined ? find.slice(offset) : find.slice(offset, offset + n);
+      const results = {
+        result,
+        totalCount,
+        offset,
+      };
+      return results;
+    },
+  },
+  ISODate: new GraphQLScalarType({
+    name: 'ISODate',
+    description: 'JavaScript Date object as an ISO timestamp',
     serialize(value) {
-      return value.getTime(); // value sent to the client
+      return value instanceof Date ? value.toISOString() : null;
+    },
+    parseValue(value) {
+      return returnOnError(
+        () => (value == null ? null : new Date(value)),
+        null,
+      );
     },
     parseLiteral(ast) {
-      if (ast.kind === Kind.INT) {
-        return new Date(ast.value); // ast value is always in string format
-      }
-      return null;
+      return ast.kind === Kind.STRING ? parseValue(ast.value) : null;
     },
   }),
 };

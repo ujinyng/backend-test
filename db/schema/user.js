@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   post: [{ type: mongoose.Schema.Types.Number, ref: 'post', default: '' }],
   comment: [
     {
-      type: mongoose.Schema.Types.Number,
+      type: Number,
       ref: 'comment',
       default: '',
     },
