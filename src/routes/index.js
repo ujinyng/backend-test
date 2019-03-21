@@ -7,6 +7,5 @@ const userRouter = require('./user');
 router.use('/post', postRouter);
 router.use('/comment', commentRouter);
 router.use('/user', userRouter);
-router.use('/graphql', function(req, res) {});
 
 module.exports = router;
