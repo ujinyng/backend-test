@@ -14,13 +14,8 @@ router.get('/', function(req, res) {
 
 //add new user
 router.post('/', function(req, res) {
-  const user = new model.user({
-    _id: req.body._id,
-    name: req.body.name,
-  });
-
   if (req.body.sessionId !== req.sessionID) {
-    req.body.sessionId = req.sessionID
+    req.body.sessionId = req.sessionID;
     model.user
       .create(req.body)
       .then(result => res.send(result))

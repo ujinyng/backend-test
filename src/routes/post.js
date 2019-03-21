@@ -13,17 +13,22 @@ router.get('/', function(req, res) {
 
 //write new post
 router.post('/', function(req, res) {
-  const post = new model.post({
-    _id: req.body._id,
-    author: req.body.authorId,
-    title: req.body.title,
-    content: req.body.content,
-  });
-
-  model.post
-    .create(req.body)
-    .then(result => res.send(result))
-    .catch(err => res.status(500).send(err));
+  model.user
+    .findOne({ sessionId: req.sessionID })
+    .select('_id')
+    .then(result => {
+      if (result._id !== null) {
+        req.body.author = result._id;
+        console.log(`author is changed to ${req.body.author}`);
+      }
+    })
+    .then(result => {
+      model.post
+        .create(req.body)
+        .then(result => res.send(req.body))
+        .catch(err => res.status(500).send(err));
+    })
+    .catch(err => res.send(err));
 });
 
 //get post by id

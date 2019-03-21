@@ -14,16 +14,22 @@ router.get('/', function(req, res) {
 
 //write new comment
 router.post('/', function(req, res) {
-  const comment = new model.comment({
-    _id: req.body._id,
-    post: req.body.pid,
-    author: req.body.authorId,
-    content: req.body.content,
-  });
-  model.comment
-    .create(req.body)
-    .then(result => res.send(result))
-    .catch(err => res.status(500).send(err));
+  model.user
+    .findOne({ sessionId: req.sessionID })
+    .select('_id')
+    .then(result => {
+      if (result._id !== null) {
+        req.body.author = result._id;
+        console.log(`author is changed to ${req.body.author}`);
+      }
+    })
+    .then(result => {
+      model.comment
+        .create(req.body)
+        .then(result => res.send(req.body))
+        .catch(err => res.status(500).send(err));
+    })
+    .catch(err => res.send(err));
 });
 
 //get comment by id
