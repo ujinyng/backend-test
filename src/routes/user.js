@@ -25,13 +25,14 @@ router.post('/', function(req, res) {
   }
 });
 
+//user logout, remove user sessionId from session and cookie
 router.get('/logout', function(req, res) {
   req.session.destroy(); // 세션 삭제
   res.clearCookie('sid'); // 세션 쿠키 삭제
   res.send('logout');
 });
 
-//get user
+//get user by id
 router.get('/:id', function(req, res) {
   model.user
     .findOne({ _id: req.params.id })
@@ -39,20 +40,24 @@ router.get('/:id', function(req, res) {
     .catch(err => res.status(500).send(err));
 });
 
-//get all posts by user id
-router.get('/:id/post', function(req, res) {
-  model.post
-    .find({ author: req.params.author })
-    .then(result => res.json(result))
-    .catch(err => res.status(500).send(err));
-});
+/**
+ * no more need
+ * use graphql
+ */
+// //get all posts by user id
+// router.get('/:id/post', function(req, res) {
+//   model.post
+//     .find({ author: req.params.author })
+//     .then(result => res.json(result))
+//     .catch(err => res.status(500).send(err));
+// });
 
-//get all comments by user id
-router.get('/:id/comment', function(req, res) {
-  model.comment
-    .find({ author: req.params.author })
-    .then(result => res.json(result))
-    .catch(err => res.status(500).send(err));
-});
+// //get all comments by user id
+// router.get('/:id/comment', function(req, res) {
+//   model.comment
+//     .find({ author: req.params.author })
+//     .then(result => res.json(result))
+//     .catch(err => res.status(500).send(err));
+// });
 
 module.exports = router;
