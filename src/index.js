@@ -42,5 +42,11 @@ app.use(
 
 app.use('/api', router);
 apolloserver.applyMiddleware({ app });
-app.listen(3000);
+const server = app.listen(3000);
 console.log('Server running at http://localhost:3000');
+
+process.on('SIGTERM', function() {
+  server.close(function() {
+    process.exit(0);
+  });
+});
