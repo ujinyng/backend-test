@@ -29,11 +29,11 @@ const typeDefs = gql`
     offset: Int
   }
   type Query {
-    getAllPosts(n: Int, offset: Int): PostResult
-    getAllComments(n: Int, offset: Int): CommentResult
-    getPostsbyUserId(author: Int!, n: Int, offset: Int): PostResult
-    getCommentsbyUserId(author: Int!, n: Int, offset: Int): CommentResult
-    getCommentsbyPostId(post: Int!, n: Int, offset: Int): CommentResult
+    readPostList(n: Int, offset: Int): PostResult
+    readCommentList(n: Int, offset: Int): CommentResult
+    readPostListbyUser(author: Int!, n: Int, offset: Int): PostResult
+    readCommentListbyUser(author: Int!, n: Int, offset: Int): CommentResult
+    readCommentListbyPost(post: Int!, n: Int, offset: Int): CommentResult
   }
 `;
 

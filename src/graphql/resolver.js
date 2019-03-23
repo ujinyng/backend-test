@@ -6,8 +6,8 @@ const { Kind } = require('graphql/language');
 
 const resolvers = {
   Query: {
-    getAllPosts: async (_, { n: n, offset = 0 }) => {
-      const find = await model.post.find({}).exec();
+    readPostList: async (_, { n: n, offset = 0 }) => {
+      const find = await Post.find({}).exec();
       const totalCount = find.length;
       const result =
         n === undefined ? find.slice(offset) : find.slice(offset, offset + n);
@@ -18,8 +18,8 @@ const resolvers = {
       };
       return results;
     },
-    getAllComments: async (_, { n: n, offset = 0 }) => {
-      const find = await model.comment.find({}).exec();
+    readCommentList: async (_, { n: n, offset = 0 }) => {
+      const find = await Comment.find({}).exec();
       const totalCount = find.length;
       const result =
         n === undefined ? find.slice(offset) : find.slice(offset, offset + n);
@@ -30,8 +30,8 @@ const resolvers = {
       };
       return results;
     },
-    getPostsbyUserId: async (_, { author: author, n: n, offset = 0 }) => {
-      const find = await model.post.find({ author: author }).exec();
+    readPostListbyUser: async (_, { author: author, n: n, offset = 0 }) => {
+      const find = await Post.find({ author: author }).exec();
       const totalCount = find.length;
       const result =
         n === undefined ? find.slice(offset) : find.slice(offset, offset + n);
@@ -42,8 +42,8 @@ const resolvers = {
       };
       return results;
     },
-    getCommentsbyUserId: async (_, { author: author, n: n, offset = 0 }) => {
-      const find = await model.comment.find({ author: author }).exec();
+    readCommentListbyUser: async (_, { author: author, n: n, offset = 0 }) => {
+      const find = await Comment.find({ author: author }).exec();
       const totalCount = find.length;
 
       const result =
@@ -55,8 +55,8 @@ const resolvers = {
       };
       return results;
     },
-    getCommentsbyPostId: async (_, { post: post, n: n, offset = 0 }) => {
-      const find = await model.comment.find({ post: post }).exec();
+    readCommentListbyPost: async (_, { post: post, n: n, offset = 0 }) => {
+      const find = await Comment.find({ post: post }).exec();
       const totalCount = find.length;
 
       const result =
