@@ -13,11 +13,18 @@ exports.createComment = function(req, res) {
     })
     .then(result => {
       Comment.create(req.body)
-        .then(result => res.send(req.body))
+        .then(result => res.json(req.body))
         .catch(err => res.status(500).send(err));
     })
     .catch(err => res.send(err));
 };
+
+exports.readCommentListbyPost = function(req, res) {
+  Comment.find({ post: req.query.post })
+    .then(result => res.json(result))
+    .catch(err => res.status(500).send(err));
+};
+
 exports.readCommentbyId = function(req, res) {
   Comment.findOne({
     _id: req.params.id,

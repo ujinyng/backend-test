@@ -5,35 +5,26 @@ const controll = require('../controllers').user;
 //user는 delete, update 불가
 
 //add new user
-router.post('/', controll.createUser);
+router
+  .post('/', controll.createUser)
 
-//get all users
-router.get('/', controll.readUserList);
-
-//get user by id
-router.get('/:id', controll.readUserbyId);
+  //get all users
+  .get('/', controll.readUserList);
 
 //user logout, remove user sessionId from session and cookie
+//this is must be first
 router.get('/logout', controll.logout);
 
-/**
- * no more need
- * use graphql
- */
-// //get all posts by user id
-// router.get('/:id/post', function(req, res) {
-//   model.post
-//     .find({ author: req.params.author })
-//     .then(result => res.json(result))
-//     .catch(err => res.status(500).send(err));
-// });
+//get user by id
+//this is must be later
+router.get('/:id', controll.readUserbyId);
 
-// //get all comments by user id
-// router.get('/:id/comment', function(req, res) {
-//   model.comment
-//     .find({ author: req.params.author })
-//     .then(result => res.json(result))
-//     .catch(err => res.status(500).send(err));
-// });
+//get all posts by user id
+//The same function exists in graphql.
+router.get('/:id/post', controll.readPostListbyUser);
+
+//get all comments by user id
+//The same function exists in graphql.
+router.get('/:id/comment', controll.readCommentListbyUser);
 
 module.exports = router;

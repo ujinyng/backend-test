@@ -2,28 +2,22 @@ const express = require('express');
 const router = express.Router();
 const controll = require('../controllers').comment;
 
-/**
- * no more need
- * use graphql
- */
-// //get all comments by post id
-// router.get('/', function(req, res) {
-//   model.comment
-//     .find({ post: req.query.pid })
-//     .then(result => res.json(result))
-//     .catch(err => res.status(500).send(err));
-// });
-
 //write new comment
-router.post('/', controll.createComment);
+router
+  .post('/', controll.createComment)
+
+  //get all comments by post id
+  //The same function exists in graphql.
+  .get('/', controll.readCommentListbyPost);
 
 //get comment by id
-router.get('/:id', controll.readCommentbyId);
+router
+  .get('/:id', controll.readCommentbyId)
 
-//update comment
-router.patch('/:id', controll.updateComment);
+  //update comment
+  .patch('/:id', controll.updateComment)
 
-//remove comment
-router.delete('/:id', controll.deleteComment);
+  //remove comment
+  .delete('/:id', controll.deleteComment);
 
 module.exports = router;

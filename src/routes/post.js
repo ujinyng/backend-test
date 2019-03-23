@@ -3,18 +3,20 @@ const router = express.Router();
 const controll = require('../controllers').post;
 
 //get all posts
-router.get('/', controll.readPostList);
+router
+  .get('/', controll.readPostList)
 
-//write new post
-router.post('/', controll.createPost);
+  //write new post
+  .post('/', controll.createPost);
 
 //get post by id
-router.get('/:id', controll.readPostList);
+router
+  .get('/:id', controll.readPostList)
 
-//update post
-router.patch('/:id', controll.updatePost);
+  //update post
+  .patch('/:id', controll.updatePost)
 
-//remove post
-router.delete('/:id', controll.deletePost);
+  //remove post
+  .delete('/:id', controll.deletePost);
 
 module.exports = router;
