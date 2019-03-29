@@ -1,23 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const controll = require('../controllers').comment;
+const comment = require('../controllers').comment;
 
-//write new comment
+/**
+ * readCommentListbyPost :
+ * The same function exists in graphql.
+ *  */
+
 router
-  .post('/', controll.createComment)
+  .route('/')
+  .post(comment.createComment) //write new comment
+  .get(comment.readCommentListbyPost); //get all comments by post id
 
-  //get all comments by post id
-  //The same function exists in graphql.
-  .get('/', controll.readCommentListbyPost);
-
-//get comment by id
 router
-  .get('/:id', controll.readCommentbyId)
-
-  //update comment
-  .patch('/:id', controll.updateComment)
-
-  //remove comment
-  .delete('/:id', controll.deleteComment);
+  .route('/:id')
+  .get(comment.readCommentbyId) //get comment by id
+  .patch(comment.updateComment) //update comment
+  .delete(comment.deleteComment); //remove comment
 
 module.exports = router;
