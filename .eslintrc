@@ -26,10 +26,6 @@
             "warn",
             "multi"
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
         "quotes": [
             "warn",
             "single",
@@ -47,7 +43,7 @@
         "prettier/prettier": [
             "warn",
             {
-                "useTabs": true,
+                "useTabs": false,
                 "semi": true,
                 "tabWidth": 2,
                 "trailingComma": "all",
