@@ -1,6 +1,6 @@
 # backend-test
 
-### 실행방법
+## 실행방법
 
 ```
 git clone https://github.com/ujinyoung/backend-test.git
@@ -8,9 +8,9 @@ npm install
 npm start
 ```
 
-### REST API
+## REST API
 
-#### User
+### User
 
 | HTTP Verb | Route                | Controller#Action          |
 |-----------|---------------------|----------------------------|
@@ -20,7 +20,7 @@ npm start
 | GET       | /api/users/:id/post | user#readPostListbyUser    |
 | GET       | /api/users/comment  | user#readCommentListbyUser |
 
-#### Post
+### Post
 
 | HTTP Verb | Route | Controller#Action |
 |-----------|---------------|-------------------|
@@ -30,8 +30,7 @@ npm start
 | PATCH     | /api/posts/:id | post#updatePost   |
 | DELETE    | /api/posts/:id | post#deletePost   
 
-
-#### Comment
+### Comment
 
 | HTTP Verb | Route | Controller#Action |
 |-----------|-------------------|-------------------------------|
@@ -42,9 +41,7 @@ npm start
 | DELETE | /api/posts/:id/comments/:cid | comment#deleteComment |
 
 
-
-
-### GraphQL
+## GraphQL
 
 - readPostList : 모든 Post 불러오기
 - readCommentList : 모든 Post 불러오기
@@ -52,7 +49,7 @@ npm start
 - readCommentListbyUser : User가 쓴 모든 Comment 검색
 - readCommentListbyPost : Post의 모든 Comment 검색
 
-#### 페이지네이션
+### 페이지네이션
 
 graphql 쿼리 결과는 모두 페이지 네이션 가능
 
@@ -60,7 +57,7 @@ graphql 쿼리 결과는 모두 페이지 네이션 가능
 - offset (defult=0): 출력 시작할 Object 결정.
   (ex. offset:3이면 Object[3]이 출력 결과의 첫번째항목. 입력안할씨 Object[0]부터 출력)
 
-#### test용 쿼리
+### test용 쿼리
 
 1. command 이용
 
@@ -80,9 +77,6 @@ ex2) default로 실행시
 sh readCommentList.sh 
 ```
 
-```
-
-```
 
 - readCommentListbyUser.sh와 readPostsListbyUser.sh 는 실행시 author, n, offset 파라미터를 사용. author는 반드시 사용해야하며 User의 _id에 해당함. 나머지는 `n=5`, `offset=0`을 default로 하여 실행됨.
 
