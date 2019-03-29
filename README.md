@@ -2,7 +2,47 @@
 
 ### 실행방법
 
+```
+git clone https://github.com/ujinyoung/backend-test.git
+npm install
+npm start
+```
+
 ### REST API
+
+#### User
+
+| HTTP Verb | Route                | Controller#Action          |
+|-----------|---------------------|----------------------------|
+| POST      | /api/users          | user#createUser            |
+| GET       | /api/users          | user#readUserList          |
+| GET       | /api/users/:id      | user#readUserbyId          |
+| GET       | /api/users/:id/post | user#readPostListbyUser    |
+| GET       | /api/users/comment  | user#readCommentListbyUser |
+
+#### Post
+
+| HTTP Verb | Route | Controller#Action |
+|-----------|---------------|-------------------|
+| POST      | /api/posts     | post#createPost   |
+| GET       | /api/posts     | post#readPostList |
+| GET       | /api/posts/:id | post#readPostbyId |
+| PATCH     | /api/posts/:id | post#updatePost   |
+| DELETE    | /api/posts/:id | post#deletePost   
+
+
+#### Comment
+
+| HTTP Verb | Route | Controller#Action |
+|-----------|-------------------|-------------------------------|
+| POST | /api/posts/:id/comments | comment#createComment |
+| GET | /api/posts/:id/comments | comment#readCommentListbyPost |
+| GET | /api/posts/:id/comments/:cid | comment#readCommentbyId |
+| PATCH | /api/posts/:id/comments/:cid | comment#updateComment |
+| DELETE | /api/posts/:id/comments/:cid | comment#deleteComment |
+
+
+
 
 ### GraphQL
 
@@ -22,41 +62,45 @@ graphql 쿼리 결과는 모두 페이지 네이션 가능
 
 #### test용 쿼리
 
-1. command
+1. command 이용
 
-/test의 sh파일 사용.
+/test의 shell script 파일 사용.
 
-- readPostList
+- readCommentList.sh 와 readPostList.sh 는 실행시 n과 offset에 해당하는 파라미터 사용. 파라미터 없이 실행할시 `n=5` `offset=0`을 default로 하여 실행됨
 
-```
-curl 'http://localhost:3000/graphql' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:3000' --data-binary '{"query":"query readPostList{\n\treadPostList(n:3,offset:6){\n \t\ttotalCount \n \t\toffset\n \t\tresult{\n \t\t\t_id\n \t\tauthor\n \t\ttitle\n \t\tcontent\n \t\tdate\n \t}\n \t}\n}\n"}' --compressed | json_pp
-```
-
-- readCommentList
+ex1) n=10, offset=9으로 실행시
 
 ```
-
+sh readCommentList.sh 10 9
 ```
 
-- readUserPost
+ex2) default로 실행시
 
 ```
-
+sh readCommentList.sh 
 ```
-
-- readCommentListbyUser
 
 ```
 
 ```
 
-- readCommentListbyPost
+- readCommentListbyUser.sh와 readPostsListbyUser.sh 는 실행시 author, n, offset 파라미터를 사용. author는 반드시 사용해야하며 User의 _id에 해당함. 나머지는 `n=5`, `offset=0`을 default로 하여 실행됨.
+
+ex3) author=1 n=10, offset=9로 실행시
 
 ```
-
+sh readCommentListbyUser.sh 1 10 9
 ```
 
-2. http:localhost:3000/graphql 에서 test
+ex4) default로 실행시
+
+```
+sh readCommentListbyUser.sh
+```
+
+2. Apoll에서 제공하는 Tool 이용
+
+http:localhost:3000/graphql 에서 아래 쿼리 입력 후 실행
 
 ```
 query readPostList{
@@ -126,3 +170,4 @@ query readCommentListbyPost{
   }
 }
 ```
+
